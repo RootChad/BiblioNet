@@ -1,0 +1,290 @@
+﻿@*@model IEnumerable<Book>
+
+    @{ Layout = "_Layout"; ViewBag.Title = "All Books";}*@
+
+@*@model dynamic
+    @{
+        ViewBag.Title = "Home Page";
+    }*@
+@model BookViewModel
+    <div class="sticky-header header-section ">
+        <div class="header-left">
+
+            <!--toggle button start-->
+            <button id="showLeftPush"><i class="fa fa-bars"></i></button>
+            <!--toggle button end-->
+            <!--notification menu end -->
+            <div class="clearfix"> </div>
+        </div>
+        <div class="header-right">
+
+
+            <!--search-box-->
+            <div class="search-box">
+               
+
+                    <input class="sb-search-input input__field--madoka" name="query" value="" placeholder="Search..." type="search" id="input-31" />
+                    <label class="input__label" for="input-31">
+                        <svg class="graphic" width="100%" height="100%" viewBox="0 0 404 77" preserveAspectRatio="none">
+                            <path d="m0,0l404,0l0,77l-404,0l0,-77z" />
+                        </svg>
+                    </label>
+               
+            </div><!--//end-search-box-->
+
+            <div class="profile_details">
+                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Logout">
+                    <i class="bi bi-power"></i>  Logout
+                </a>
+                
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+   
+<div id="page-wrapper">
+    <div class="main-page">
+        <div class="tables">
+            <h2 class="title1">Tables</h2>
+
+            <div class="panel-body widget-shadow">
+                <h4>Liste des livres:</h4>
+
+                <table class="table" id="tableau">
+                    <thead>
+                        <tr>
+
+                            <th>Titre</th>
+                            <th>Auteur</th>
+                            <th>Date de realisation</th>
+                            <th>Description</th>
+                            <th></th>
+                            <th></th>
+                            <div class="col-md-6 modal-grids">
+                                @*<a asp-action="AddBook" class="btn btn-sm btn-primary">Add Manga</a>*@
+                                <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#exampleModal" data-whatever=""><i class="fa fa-plus"></i></button>
+                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                <h4 class="modal-title" id="exampleModalLabel">Ajouter un nouveau livre</h4>
+                                            </div>
+
+
+                                            <div class="modal-body">
+                                                <form enctype="multipart/form-data" asp-action="AddBook" method="post">
+                                                    <div class="form-group">
+                                                        <label for="recipient-name" class="control-label">Titre:</label>
+                                                        <input type="text" name="Titre" value="" required="" id="Titre" class="form-control" />
+
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="recipient-name" class="control-label">Auteur:</label>
+                                                        <input type="text" name="Author" value="" required="" id="Author" class="form-control" />
+
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="recipient-name" class="control-label">Date de realisation:</label>
+                                                        <input type="date" name="ReleaseDate" format="dd-MM-yyyy" value="" required="" id="ReleaseDate" class="form-control" />
+
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="message-text" class="control-label">Fichier pdf:</label>
+                                                        <input type="file" name="File" accept="application/pdf" />
+                                                        <span asp-validation-for="File" class="text-danger"></span>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="message-text" class="control-label">Image:</label>
+                                                        <input type="file" name="ProfileImage" accept="image/*" />
+                                                        <span asp-validation-for="ProfileImage" class="text-danger"></span>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="message-text" class="control-label">Description:</label>
+                                                        <textarea class="form-control" required="" name="Description" id="message-text" id="Description"></textarea>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-primary">Create</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+            </div>
+            </tr>
+
+            @if (TempData["msg"] != null)
+            {
+            <div class="alert alert-warning" role="alert">
+               @TempData["msg"]
+            </div>
+            }
+            @*<div class="alert alert-warning" role="alert">
+            @ViewBag.success
+        </div>
+        <div class="alert alert-warning" role="alert">
+            @ViewBag.error
+        </div>*@
+            </thead>
+            <tbody>
+                @foreach (Book livre in ViewBag.Book)
+                {
+                    <tr>
+
+
+
+                        <td>@livre.Titre</td>
+                        <td>@livre.Author</td>
+                        <td>@livre.ReleaseDate</td>
+                        <td>@livre.Description</td>
+
+                        <td>
+
+                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#edit_@livre.BookID"><i class="fa fa-pencil"></i></button>
+                            <div class="modal fade" id="edit_@livre.BookID" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            <h4 class="modal-title" id="exampleModalLabel">Modifier le  livre </h4>
+                                        </div>
+
+                                        <div class="modal-body">
+
+                                            <form enctype="multipart/form-data" asp-action="UpdateBook" method="post">
+
+                                                <input type="hidden" name="BookID" value="@livre.BookID" />
+                                                <div class="form-group">
+                                                    <label for="recipient-name" class="control-label">Titre:</label>
+                                                    <input type="text" asp-for="@livre.Titre" name="Titre" value="@livre.Titre" required="" id="Titre" class="form-control" />
+
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="recipient-name" class="control-label">Date de realisation:</label>
+                                                    <input type="date" asp-for="@livre.ReleaseDate" name="ReleaseDate" format="yyyy-MM-dd" value="@livre.ReleaseDate" required="" id="ReleaseDate" class="form-control" />
+
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="recipient-name" class="control-label">Auteur:</label>
+                                                    <input type="text" name="Author" asp-for="@livre.Author" value="@livre.Author" required="" id="Author" class="form-control" />
+
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="message-text" class="control-label">Description:</label>
+                                                    <textarea class="form-control" asp-for="@livre.Description" name="Description" id="Description">@livre.Description</textarea>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="message-text" class="control-label">Fichier pdf:</label>
+                                                    <input type="file" name="File" accept="application/pdf" />
+                                                    <span asp-validation-for="File" class="text-danger"></span>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="message-text" class="control-label">Image:</label>
+                                                    <input type="file" name="ProfileImage" accept="image/*" />
+                                                    <span asp-validation-for="ProfileImage" class="text-danger"></span>
+                                                </div>
+                                                <input type="hidden" class="form-control" asp-for="Image" />
+                                                <input type="hidden" class="form-control" asp-for="FileName" />
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-primary">Update</button>
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+
+                        </td>
+                        <td>
+                            <form asp-action="DeleteBook" method="post">
+                                <input type="hidden" name="bookId" value="@livre.BookID" required="" id="id" />
+                                <button type="submit" class="btn btn-danger"><i class="fa fa-archive"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+
+<script>
+
+    $(document).ready(function () {
+        $('#input-31').change(function () {
+            $.ajax({
+                type: 'GET',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                url: 'https://localhost:44385/api/Books/search/' + document.getElementById('input-31').value,
+                async: true,
+                success: function (response) {
+                    console.log(response);
+                    var employeeTable = $('#tableau tbody');
+                    employeeTable.empty();
+                    $(response).each(function (index, emp) {
+                        /**/
+                        /**/
+                        employeeTable.append('<tr><td>' + emp.titre + '</td><td>' + emp.author + '</td><td>' + emp.releaseDate + '</td><td>' + emp.description + '<td><button type="button" class="btn btn-success" data-toggle="modal" data-target="#edit_' + emp.bookID + '"><i class="fa fa-pencil"></i></button><div class="modal fade" id="edit_' + emp.bookID + '" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">                       <div class="modal-dialog" role="document">                            <div class="modal-content">                                 <div class="modal-header">                                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>                                       <h4 class="modal-title" id="exampleModalLabel">Modifier le  livre </h4>                                   </div>     <div class="modal-body"> <form enctype="multipart/form-data" asp-action="UpdateBook" method="post"><input type="hidden" name="BookID" value="' + emp.bookID + '" /><div class="form-group"><label for="recipient-name" class="control-label">Titre:</label> <input type="text" asp-for="' + emp.titre + '" name="Titre" value="' + emp.titre + '" required="" id="Titre" class="form-control" />   </div> <div class="form-group">  <label for="recipient-name" class="control-label">Date de realisation:</label> <input type="date" asp-for="' + emp.releaseDate + '" name="ReleaseDate" format="yyyy - MM - dd" value="' + emp.releaseDate + '" required="" id="ReleaseDate" class="form-control" />    <div class="form-group"> <label for="recipient-name" class="control - label">Auteur:</label><input type="text" name="Author" asp-for="' + emp.author + '" value="' + emp.author + '" required="" id="Author" class="form-control" /> </div><div class="form-group">                            <label for="message-text" class="control-label">Description:</label>        <textarea class="form-control" asp-for="' + emp.description + '" name="Description" id="Description">' + emp.description + '</textarea>           </div>          <div class="form-group">             <input type="file" name="ProfileImage" accept="image/*" required/><span asp-validation-for="ProfileImage" class="text-danger"></span>               </div>  <input type="hidden" class="form-control" asp-for="Image" />  <div class="modal-footer">        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>               <button type="submit" class="btn btn-primary">Update</button>   </div>  </form>      </div>    </div> </div>                  </div></td>    <td> <form asp-action="DeleteBook" method="post">  <input type="hidden" name="bookId" value="' + emp.bookID + '" required="" id="id" /><button type="submit" class="btn btn-danger"><i class="fa fa-archive"></i></button></form> </td>'
+        /**/
+        /**/
+
+
+    );
+});
+
+},
+error: function () { alert("error"); }
+});
+
+});
+});
+</script>
+
+<script>
+
+    @*$(document).ready(function () {
+        $('#input-31').change(function () {
+            $.ajax({
+                type: 'GET',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                url: 'https://localhost:44385/api/Books/search/' + document.getElementById('input-31').value,
+                async: true,
+                success: function (response) {
+                    console.log(response);
+                    var employeeTable = $('#tableau tbody');
+                    employeeTable.empty();
+                    $(response).each(function (index, emp) {
+                        employeeTable.append('<tr><td>' + emp.titre + '</td><td>' + emp.author + '</td><td>' + emp.releasedate+ '</td><td>' + emp.description +                            '<td><button type="button" class="btn btn-success" data-toggle="modal" data-target="#edit_@livre.Description"><i class="fa fa-pencil"></i></button><div class="modal fade" id="edit_@livre.Description" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">                       <div class="modal-dialog" role="document">                            <div class="modal-content">                                 <div class="modal-header">                                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>                                       <h4 class="modal-title" id="exampleModalLabel">Modifier le  livre </h4>                                   </div>     <div class="modal-body"> <form enctype="multipart/form-data" asp-action="UpdateBook" method="post"><input "text" name="BookID" value="@livre.BookID" /><div class="form-group"><label for="recipient-name" class="control-label">Titre:</label> <input type="text" asp-for="@livre.Titre" name="Titre" value="@livre.Titre" required="" id="Titre" class="form-control" />   </div> <div class="form-group">  <label for="recipient-name" class="control-label">Date de realisation:</label> <input type="date" asp-for="@livre.ReleaseDate" name="ReleaseDate" format="yyyy-MM-dd" value="@livre.ReleaseDate" required="" id="ReleaseDate" class="form-control" />>    <div class="form-group"> <label for="recipient-name" class="control-label">Auteur:</label><input type="text" name="Author" asp-for="@livre.Author" value="@livre.Author" required="" id="Author" class="form-control" /> </div><div class="form-group">                            <label for="message-text" class="control-label">Description:</label>        <textarea class="form-control" asp-for="@livre.Description" name="Description" id="Description">@livre.Description</textarea>           </div>          <div class="form-group">             <input type="file" name="ProfileImage" accept="image/*" />span asp-validation-for="ProfileImage" class="text-danger"></span>               </div>  <input type="hidden" class="form-control" asp-for="Image" />  <div class="modal-footer">        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>               <button type="submit" class="btn btn-primary">Update</button>   </div>  </form>      </div>                     </div>
+
+
+                            </div>
+                        </div>
+
+
+                    </td>' + emp.id + '" name="ReservationId" /></form> </td> <td><a asp-action="Update" asp-route-id="' + emp.image + '"><img src="/images/edit.png" width="50px;" height="50px" /></a></td></tr>' );
+                    });
+
+                },
+                error: function () { alert("error"); }
+            });
+
+        });
+    });*@
+</script>
+
+

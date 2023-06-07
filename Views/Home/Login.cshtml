@@ -1,0 +1,30 @@
+﻿@model LoginViewModel
+@{
+    Layout = null;
+}
+<html>
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="~/js/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+<link href="~/css/login.css" rel="stylesheet" />
+<div class="wrapper fadeInDown">
+    <div id="formContent">
+        <!-- Tabs Titles -->
+        <!-- Icon -->
+        @*<div class="fadeIn first">
+            <img src="http://danielzawadzki.com/codepen/01/icon.svg" id="icon" alt="User Icon" />
+        </div>*@
+
+        <!-- Login Form -->
+        <form asp-action="Authentification" method="post">
+            <input asp-for="Email" type="text" id="login" class="fadeIn second" name="Email" placeholder="login">
+            <input asp-for="Password" type="password" id="password" class="fadeIn third" name="Password" placeholder="password">
+            <input type="submit" class="fadeIn fourth" value="Log In">
+        </form>
+
+
+    </div>
+</div>
+</html>

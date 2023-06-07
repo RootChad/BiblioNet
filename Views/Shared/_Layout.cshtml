@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Book</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/style.css" />
+    <link rel="stylesheet" href="~/css/custom.css" />
+    <link rel="stylesheet" href="~/css/font-awesome.css" />
+    <link rel="stylesheet" href="~/css/SidebarNav.min.css" />
+
+    <script src="~/js/jquery-1.11.1.min.js"></script>
+    
+    <script src="~/js/modernizr.custom.js"></script>
+    <script src="~/js/metisMenu.min.js"></script>
+    <script src="~/js/custom.js"></script>
+
+</head>
+<body class="cbp-spmenu-push">
+    <div class="main-content">
+        <div class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
+            <!--left-fixed -navigation-->
+            <aside class="sidebar-left">
+                <nav class="navbar navbar-inverse">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".collapse" aria-expanded="false">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <h1><a class="navbar-brand" href="index.html"><span class="fa fa-area-chart"></span> Glance<span class="dashboard_text">Design dashboard</span></a></h1>
+                    </div>
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="sidebar-menu">
+                            <li class="header">MAIN NAVIGATION</li>
+                            <li class="treeview">
+                                <g:link class="index" action="indexBack">
+                                    <i class="fa fa-table"></i>
+                                    <span>Liste de livres</span>
+                                </g:link>
+
+
+
+                            </li>
+                          
+
+                        </ul>
+                    </div>
+                    <!-- /.navbar-collapse -->
+                </nav>
+            </aside>
+        </div>
+        
+        @RenderBody()
+
+
+    </div>
+    
+    <script src="~/js/classie.js"></script>
+    <script>
+        var menuLeft = document.getElementById('cbp-spmenu-s1'),
+            showLeftPush = document.getElementById('showLeftPush'),
+            body = document.body;
+
+        showLeftPush.onclick = function () {
+            classie.toggle(this, 'active');
+            classie.toggle(body, 'cbp-spmenu-push-toright');
+            classie.toggle(menuLeft, 'cbp-spmenu-open');
+            disableOther('showLeftPush');
+        };
+
+        function disableOther(button) {
+            if (button !== 'showLeftPush') {
+                classie.toggle(showLeftPush, 'disabled');
+            }
+        }
+    </script>
+
+    <script src="~/js/modernizr.custom.js"></script>
+    <script src="~/js/jquery.nicescroll.js"></script>
+    <script src="~/js/scripts.js"></script>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    @*<asset:stylesheet src="cssback/bootstrap.css" />
+        <asset:stylesheet src="cssback/style.css" />
+        <asset:stylesheet src="cssback/custom.css" />
+        <asset:stylesheet src="font-awesome.css" />
+        <asset:stylesheet src="cssback/SidebarNav.min.css" />
+        <asset:javascript src="jsback/jquery-1.11.1.min.js" />
+        <asset:javascript src="jsback/modernizr.custom.js" />
+        <asset:javascript src="jsback/metisMenu.min.js" />
+        <asset:javascript src="jsback/custom.js" />*@
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
